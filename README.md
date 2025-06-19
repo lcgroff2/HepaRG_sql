@@ -89,3 +89,5 @@ sid_from_inchikey <- function(inchikey) {
 
 }
 ```
+The results of processing each DTXSID through VSSTox turns the unstructured database into the following relational output:
+![](https://github.com/lcgroff2/HepaRG_sql/blob/main/vsstox_er_diagram.png)
