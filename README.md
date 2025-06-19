@@ -2,6 +2,60 @@
 SQL scripting in R for insertion of MetSim metabolic predictions into MySQL database.
 
 * [Full R Script](https://github.com/lcgroff2/HepaRG_sql/blob/main/parents_load_script_lgroff_redacted.R) for conversion of JSON formatted unstructured MongoDB datasets of predicted metabolites into MySQL relational database format, followed by insertion into database. (DB connection URLs removed from document for security)
+* Requires [JSON UTF-8 formatted input files (Example)](https://github.com/lcgroff2/HepaRG_sql/blob/main/predictions/heparg_times_rat_in_vitro_0.json), which process the unstructured metabolism data via the R-script into MySQL relational database formatting. Example of MongoDB JSON output structure given below for one parent and two of its phase I metabolite children:
+  ```JSON
+  {"datetime": "2025-03-14_12h55m10s",
+   "software": "OASIS TIMES",
+   "version": "2.31.2.82",
+   "params": {"depth": 3,
+              "organism": "Rat",
+              "site_of_metabolism": false,
+              "model": ["In Vitro Rat Liver S9 v12.18"]
+             },
+   "input": {"smiles": "C1=CC=C2C(=C1)C=C1C=CC3=CC=CC4=CC=C2C1=C34",
+             "casrn": "50-32-8",
+             "hcd_smiles": "C1=CC2C=C3C4C5C(C=CC=4C=2C=C1)=CC=CC=5C=C3",
+             "inchikey": "FMMWHPNWAFZXNH-UHFFFAOYNA-N",
+             "dtxsid": "DTXSID2020139",
+             "chem_name": "Benzo[a]pyrene",
+             "likelihood": null
+            },
+  "output": [{"precursor": {"smiles": "c1cccc2cc3ccc4cccc5ccc(c12)c3c45",
+                            "casrn": "50-32-8",
+                            "hcd_smiles": "C1=C2C(C=C3C4C5=C(C=CC2=4)C=CC=C5C=C3)=CC=C1",
+                            "inchikey": "FMMWHPNWAFZXNH-UHFFFAOYNA-N",
+                            "dtxsid": "DTXSID2020139",
+                            "chem_name": "Benzo[a]pyrene",
+                            "likelihood": null
+                           },
+              "successors": [{"enzyme": "[phase I]",
+                              "mechanism": "Arene Epoxide Formation|PAH Arene Epoxide Formation",
+                              "metabolite": {"smiles": "C1=CC2C(c3cc4ccc5cccc6ccc(c13)c4c56)O2",
+                                             "casrn": "36504-65-1",
+                                             "hcd_smiles": "C1C2=C(C=C3C4C5=C(C=CC2=4)C=CC=C5C=C3)C2OC2C=1",
+                                             "inchikey": "OLLMQFHYRYHKTD-UHFFFAOYNA-N",
+                                             "dtxsid": "DTXSID80957806",
+                                             "chem_name": "6b,7a-Dihydrobenzo[1,12]tetrapheno[8,9-b]oxirene",
+                                             "likelihood": null
+                                            },
+                              "generation": 1
+                             },
+                             {"enzyme": "[phase I]",
+                              "mechanism": "Aromatic C-Hydroxylation|PAH Aromatic C-Hydroxylation",
+                              "metabolite": {"smiles": "Oc1c2ccccc2c2ccc3cccc4ccc1c2c34",
+                                             "casrn": "33953-73-0",
+                                             "hcd_smiles": "OC1C2=C3C4C(C=C2)=CC=CC=4C=CC3=C2C=1C=CC=C2",
+                                             "inchikey": "MGTMTTGZMPDIQS-UHFFFAOYNA-N",
+                                             "dtxsid": "DTXSID30955534",
+                                             "chem_name": "Benzo[pqr]tetraphen-6-ol",
+                                             "likelihood": null
+                                            },
+                              "generation": 1
+                             }
+                            ]
+            }]
+  }
+  ```
 * Example SQL Test Query Script for retrieving Distributed Structure-Searchable Toxicity (DSSTox) Database Substance Identifier (DTXSID, sid in code) based on InChIKey structural identifiers with commands from MariaDB R Package
 ```r
 sid_from_inchikey <- function(inchikey) {
